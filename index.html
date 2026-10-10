@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10051f">
+  <meta name="description" content="Una galaxia creada con amor para mi amorcito bello.">
+  <title>Para mi amorcito bello 💗</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --rosa: #ff77c8;
+      --rosa-claro: #ffd1ed;
+      --morado: #bd91ff;
+      --fondo: #080416;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--fondo);
+      color: white;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .pantalla {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 30px 18px;
+      background:
+        radial-gradient(ellipse at 50% 45%,
+          #35134f 0%, #18092d 45%, #080416 100%);
+    }
+
+    .oculto {
+      display: none !important;
+    }
+
+    /* Cielo estrellado */
+    .estrellas {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .estrella {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 9px white, 0 0 18px #e6aaff;
+      animation: brillar var(--duracion, 2s) ease-in-out infinite alternate;
+      animation-delay: var(--retraso, 0s);
+    }
+
+    @keyframes brillar {
+      from { opacity: .2; transform: scale(.6); }
+      to { opacity: 1; transform: scale(1.7); }
+    }
+
+    /* Pantalla de bienvenida */
+    .bienvenida {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 430px);
+      text-align: center;
+      animation: aparecer 1.5s ease both;
+    }
+
+    .luna {
+      font-size: 54px;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 18px #dba3ff);
+      animation: flotar 4s ease-in-out infinite;
+    }
+
+    .bienvenida h1 {
+      color: var(--rosa-claro);
+      font-size: clamp(30px, 8vw, 43px);
+      line-height: 1.2;
+      text-shadow: 0 0 25px #ff56bd;
+      margin-bottom: 17px;
+    }
+
+    .bienvenida p {
+      color: #ead8ff;
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .boton-amor {
+      display: inline-block;
+      border: 1px solid #ffc4e8;
+      border-radius: 50px;
+      padding: 15px 23px;
+      color: #541044;
+      background: linear-gradient(135deg, #ffd4ed, #ff87cb);
+      box-shadow: 0 0 22px #ff64c777;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .boton-amor:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 32px #ff64c7bb;
+    }
+
+    .boton-amor:focus-visible {
+      outline: 3px solid white;
+      outline-offset: 5px;
+    }
+
+    .pista {
+      margin-top: 20px;
+      color: #bda9dc;
+      font-size: 12px;
+    }
+
+    /* Galaxia principal */
+    .universo {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 650px);
+      min-height: 750px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 25px 12px 40px;
+      animation: aparecer 1.3s ease both;
+    }
+
+    .encabezado {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      margin: 8px 0 18px;
+    }
+
+    .encabezado .etiqueta {
+      color: var(--rosa);
+      letter-spacing: 4px;
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
+
+    .encabezado h2 {
+      font-size: clamp(27px, 7vw, 39px);
+      color: #ffe1f3;
+      text-shadow: 0 0 20px #ff62c9;
+      margin-bottom: 10px;
+    }
+
+    .encabezado p {
+      color: #d8c4fa;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Escena planetaria */
+    .escena {
+      position: relative;
+      width: min(92vw, 460px);
+      height: min(92vw, 460px);
+      max-height: 460px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      margin: 8px 0 25px;
+    }
+
+    .nebulosa {
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        #ff5dbb25, #a568ff19 45%, transparent 72%);
+      filter: blur(12px);
+    }
+
+    .orbita {
+      position: absolute;
+      width: 100%;
+      height: 43%;
+      border: 1px solid #dfb2ff66;
+      border-radius: 50%;
+      transform: rotate(-32deg);
+      animation: orbitar 14s linear infinite;
+    }
+
+    .orbita.segunda {
+      width: 83%;
+      height: 83%;
+      transform: rotate(58deg);
+      border-color: #ff94d866;
+      animation-duration: 20s;
+      animation-direction: reverse;
+    }
+
+    .orbita.tercera {
+      width: 65%;
+      height: 100%;
+      transform: rotate(43deg);
+      border-color: #a6a0ff55;
+      animation-duration: 25s;
+    }
+
+    @keyframes orbitar {
+      from { rotate: 0deg; }
+      to { rotate: 360deg; }
+    }
+
+    .planeta {
+      position: absolute;
+      z-index: 2;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 25%,
+        #fff1ff, #e9a0ff 24%, #8c42ce 65%, #35105c);
+      box-shadow: 0 0 18px #d67bff;
+      top: 9%;
+      left: 18%;
+    }
+
+    .planeta.dos {
+      width: 27px;
+      height: 27px;
+      top: auto;
+      bottom: 10%;
+      left: auto;
+      right: 15%;
+      background: radial-gradient(circle at 30% 25%,
+        #fff3cf, #ffb7ce 35%, #d94b9d 75%);
+      box-shadow: 0 0 18px #ff91cb;
+    }
+
+    .planeta.tres {
+      width: 19px;
+      height: 19px;
+      top: 20%;
+      left: auto;
+      right: 8%;
+      background: radial-gradient(circle at 30% 25%,
+        #fff, #9ee8ff 40%, #5472da);
+      box-shadow: 0 0 15px #83d9ff;
+    }
+
+    /* Corazón central */
+    .corazon-central {
+      position: relative;
+      z-index: 4;
+      display: grid;
+      place-items: center;
+      width: 160px;
+      height: 160px;
+      animation: flotar 3s ease-in-out infinite;
+    }
+
+    .corazon {
+      position: absolute;
+      font-size: 143px;
+      line-height: 1;
+      color: #ff398f;
+      filter:
+        drop-shadow(0 0 8px #ff3c9b)
+        drop-shadow(0 0 24px #ff1687)
+        drop-shadow(0 0 44px #ff168755);
+      animation: latir 1.5s ease-in-out infinite;
+    }
+
+    .te-amo {
+      position: relative;
+      z-index: 2;
+      margin-top: 9px;
+      color: white;
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px #ffaddc, 0 0 17px #ff55b9;
+    }
+
+    @keyframes latir {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @keyframes flotar {
+      0%, 100% { translate: 0 -6px; }
+      50% { translate: 0 7px; }
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mensajes de afirmación */
+    .afirmaciones {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      width: min(100%, 500px);
+    }
+
+    .frase {
+      padding: 15px 12px;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      border: 1px solid #e9b9ff4a;
+      border-radius: 18px;
+      background: #2a1646a8;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px #a94bff12;
+      animation: flotar 5s ease-in-out infinite;
+    }
+
+    .frase:nth-child(even) {
+      animation-delay: .8s;
+    }
+
+    .frase span {
+      font-size: 20px;
+    }
+
+    .frase p {
+      color: #ffe4f4;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    /* Dedicatoria */
+    .dedicatoria {
+      position: relative;
+      z-index: 5;
+      max-width: 440px;
+      margin-top: 25px;
+      text-align: center;
+      padding: 22px 18px;
+      border-top: 1px solid #e9b9ff55;
+      border-bottom: 1px solid #e9b9ff55;
+    }
+
+    .dedicatoria .mini-titulo {
+      color: var(--rosa);
+      font-size: 11px;
+      letter-spacing: 3px;
+      margin-bottom: 14px;
+    }
+
+    .dedicatoria p {
+      font-size: 15px;
+      line-height: 1.9;
+      color: #f5e8ff;
+    }
+
+    .dedicatoria .firma {
+      margin-top: 16px;
+      color: #ffaddc;
+      font-style: italic;
+      font-size: 17px;
+    }
+
+    .final {
+      margin-top: 22px;
+      text-align: center;
+      color: #bda9dc;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .volver {
+      margin-top: 20px;
+      border: 1px solid #e6a4e966;
+      border-radius: 30px;
+      padding: 10px 16px;
+      color: #ffe0f3;
+      background: #301341;
+      cursor: pointer;
+    }
+
+    @media (max-width: 380px) {
+      .escena {
+        width: 88vw;
+        height: 88vw;
+      }
+
+      .corazon-central {
+        transform: scale(.83);
+      }
+
+      .frase {
+        padding: 12px 8px;
+      }
+
+      .frase p {
+        font-size: 11px;
+      }
+
+      .universo {
+        padding-inline: 4px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Primera pantalla -->
+  <main id="inicio" class="pantalla">
+    <div class="estrellas" aria-hidden="true"></div>
+
+    <section class="bienvenida">
+      <div class="luna" aria-hidden="true">🌙</div>
+
+      <h1>Para mi amorcito bello 💗</h1>
+
+      <p>
+        Preparé un pequeño universo para ti.<br>
+        Un lugar donde cada estrella guarda un
+        pedacito de mi amor. ✨<br><br>
+        ¿Estás listo para descubrirlo?
+      </p>
+
+      <button id="abrir" class="boton-amor">
+        Toca aquí, mi amor ❤️
+      </button>
+
+      <p class="pista">Una sorpresita hecha con todo mi corazón ♡</p>
+    </section>
+  </main>
+
+  <!-- Galaxia revelada al tocar el botón -->
+  <main id="galaxia" class="pantalla oculto">
+    <div class="estrellas" aria-hidden="true"></div>
+
+    <section class="universo">
+
+      <header class="encabezado">
+        <p class="etiqueta">✦ NUESTRO PEQUEÑO UNIVERSO ✦</p>
+        <h2>Mi amorcito bello 💗</h2>
+        <p>De todas las estrellas, mi favorita siempre serás tú.</p>
+      </header>
+
+      <div class="escena" aria-label="Un corazón que dice Te amo, rodeado de planetas y órbitas">
+        <div class="nebulosa"></div>
+
+        <div class="orbita"></div>
+        <div class="orbita segunda"></div>
+        <div class="orbita tercera"></div>
+
+        <div class="planeta"></div>
+        <div class="planeta dos"></div>
+        <div class="planeta tres"></div>
+
+        <div class="corazon-central">
+          <div class="corazon" aria-hidden="true">♥</div>
+          <div class="te-amo">TE AMO</div>
+        </div>
+      </div>
+
+      <section class="afirmaciones" aria-label="Palabras de amor">
+        <article class="frase">
+          <span>🌷</span>
+          <p>Eres suficiente, exactamente como eres.</p>
+        </article>
+
+        <article class="frase">
+          <span>✨</span>
+          <p>Estoy muy orgullosa de la persona que eres.</p>
+        </article>
+
+        <article class="frase">
+          <span>🫶🏻</span>
+          <p>Creo en ti, en tus sueños y en todo lo que puedes lograr.</p>
+        </article>
+
+        <article class="frase">
+          <span>🌙</span>
+          <p>Siempre mereces amor, ternura y cosas bonitas.</p>
+        </article>
+
+        <article class="frase">
+          <span>💞</span>
+          <p>Tu felicidad importa muchísimo para mí.</p>
+        </article>
+
+        <article class="frase">
+          <span>🪐</span>
+          <p>Te elegiría en esta galaxia y en todos los universos.</p>
+        </article>
+      </section>
+
+      <section class="dedicatoria">
+        <p class="mini-titulo">♡ UN MENSAJE PARA TI ♡</p>
+
+        <p>
+          Eres mi lugar seguro, mi persona favorita
+          y el amor que elegiría en todos mis universos.
+        </p>
+
+        <p class="firma">Con todo mi amor,<br>Tus ojitos bonitos 💗</p>
+      </section>
+
+      <footer class="final">
+        <p>Si pudiera pedir un deseo a cada estrella,</p>
+        <p>en todas pediría seguir compartiendo mi universo contigo. ✨</p>
+        <p style="margin-top: 12px">Te amo hoy, mañana y en cada universo. 💘</p>
+
+        <button id="volver" class="volver">
+          Volver a abrazar mi sorpresa 💌
+        </button>
+      </footer>
+
+    </section>
+  </main>
+
+  <script>
+    // Crear estrellas sin utilizar imágenes externas.
+    document.querySelectorAll(".estrellas").forEach((cielo) => {
+      for (let i = 0; i < 100; i++) {
+        const estrella = document.createElement("span");
+        estrella.className = "estrella";
+
+        estrella.style.left = Math.random() * 100 + "%";
+        estrella.style.top = Math.random() * 100 + "%";
+        estrella.style.setProperty(
+          "--duracion",
+          (1.2 + Math.random() * 3) + "s"
+        );
+        estrella.style.setProperty(
+          "--retraso",
+          (Math.random() * 3) + "s"
+        );
+
+        if (Math.random() > 0.8) {
+          estrella.style.width = "4px";
+          estrella.style.height = "4px";
+        }
+
+        cielo.appendChild(estrella);
+      }
+    });
+
+    const inicio = document.getElementById("inicio");
+    const galaxia = document.getElementById("galaxia");
+
+    document.getElementById("abrir").addEventListener("click", () => {
+      inicio.classList.add("oculto");
+      galaxia.classList.remove("oculto");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("volver").addEventListener("click", () => {
+      galaxia.classList.add("oculto");
+      inicio.classList.remove("oculto");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+
+</body>
+</html>
